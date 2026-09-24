@@ -1,3 +1,4 @@
+import PlanSaveBtn from "@/app/components/WorkOutBtn/Plan&SaveBtn";
 import { getWorkouts } from "@/lib/api";
 import { IWorkOut } from "@/type/LibraryCard";
 import { Bookmark, Plus, Star } from "lucide-react";
@@ -98,16 +99,7 @@ const LibraryCardDetails =async ({params}:IDetailsPages) => {
                 </div>
 
                 {/* Buttons */}
-                <div className="flex gap-4 mt-6">
-                    <button className="flex items-center gap-2 bg-[#ccff00] text-black font-semibold px-5 py-2.5 rounded-full hover:bg-[#b8e600] transition">
-                        <Plus size={16} />
-                        Add to today's plan
-                    </button>
-                    <button className="flex items-center gap-2 border border-white/20 text-white font-semibold px-5 py-2.5 rounded-full hover:bg-white/10 transition">
-                        <Bookmark size={16} />
-                        Save for later
-                    </button>
-                </div>
+                <PlanSaveBtn datas={datas}/>
             </div>
         </div>
     );

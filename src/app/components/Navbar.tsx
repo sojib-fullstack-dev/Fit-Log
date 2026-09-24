@@ -4,11 +4,18 @@ import Image from "next/image";
 import Link from "next/link"; 
 import logo from "@/assets/logo.png"; 
 import { usePathname } from "next/navigation"; 
+import { useContext } from "react";
+import { WorkoutContext } from "@/context/WorkoutsProvider";
+
  
 const Navbar = () => { 
   const pathname = usePathname(); 
+
+  const {slecetedWorkout}=useContext(WorkoutContext)
  
   return ( 
+
+
     <div className="mt-5"> 
       <nav className="flex flex-col md:flex-row justify-between items-center gap-5 md:gap-0  py-4 px-4 md:px-8 lg:px-16"> 
  
@@ -31,8 +38,8 @@ const Navbar = () => {
         </div> 
  
         <div className="flex gap-3"> 
-          <button className="font-bold border border-gray-300 px-4 py-1 rounded hover:bg-gray-700 hover:text-white transition cursor-pointer"> 
-            Plan 
+          <button  className="font-bold border border-gray-300 px-4 py-1 rounded hover:bg-gray-700 hover:text-white transition cursor-pointer"> 
+            Plan ({slecetedWorkout})
           </button> 
  
           <button className="font-bold bg-[#c2f800de] px-4 py-1 rounded hover:bg-[#c2f800] transition cursor-pointer"> 
