@@ -1,37 +1,52 @@
-"use client"
-import { IWorkOut } from '@/type/LibraryCard';
-import React, { createContext, ReactNode, useState } from 'react';
+"use client";
 
+import { IWorkouts } from "@/type/LibraryCard";
+import { createContext, useState } from "react";
 
 interface IWorkoutContext {
-    slecetedWorkout: IWorkOut[];
-    setSlecetedWorkout: React.Dispatch<React.SetStateAction<IWorkOut[]>>;
+  selectedWorkouts: IWorkouts[];
+  addPlan: (workout: IWorkouts) => void;
+
+  savedWorkouts: IWorkouts[];
+  addSaved: (workout: IWorkouts) => void;
 }
 
-export const WorkoutContext = createContext<IWorkoutContext | null>(null)
+export const WorkoutContext = createContext<IWorkoutContext | null>(null);
 
-if (!WorkoutContext) {
-    throw new Error("PlanSaveBtn must be used within a WorkoutProvider");
-}
+const WorkoutProvider = ({ children }: { children: React.ReactNode }) => {
+  
+  const [selectedWorkouts, setSelectedWorkouts] = useState<IWorkouts[]>([]);
+  const [savedWorkouts, setSavedWorkouts] = useState<IWorkouts[]>([]);
 
+  // Add workout to today's plan
+  const addPlan = (workout: IWorkouts) => {
+    setSelectedWorkouts((prev) => {
+      const alreadyAdded = prev.some((item) => item.id === workout.id);
+      if (alreadyAdded) return prev;
 
-const WorkoutsProvider = ({ children }: { children: ReactNode }) => {
+      if (prev.length >= 5) return prev;
 
-    const [slecetedWorkout, setSlecetedWorkout] = useState(0)
-    const addPlan = () => {
-        setSlecetedWorkout((item) => item + 1)
-    }
+      return [...prev, workout];
+    });
+  };
 
-    const Shared = {
-        slecetedWorkout,
-        addPlan
-    }
+  // Save workout
+  const addSaved = (workout: IWorkouts) => {
+    setSavedWorkouts((prev) => {
+      const alreadySaved = prev.some((item) => item.id === workout.id);
+      if (alreadySaved) return prev;
 
-    return (
-        <WorkoutContext.Provider value={Shared} >{children}</WorkoutContext.Provider>
+      return [...prev, workout];
+    });
+  };
 
-    )
-
+  return (
+    <WorkoutContext.Provider
+      value={{ selectedWorkouts, addPlan, savedWorkouts, addSaved }}
+    >
+      {children}
+    </WorkoutContext.Provider>
+  );
 };
 
-export default WorkoutsProvider;
+export default WorkoutProvider;
