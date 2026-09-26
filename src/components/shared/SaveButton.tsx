@@ -36,12 +36,12 @@ const SavedButton = ({ workout }: IPlanButtonProps) => {
   }}
   className={`flex items-center gap-2 font-semibold px-5 py-2.5 rounded-full transition ${
     alreadyAdded
-      ? "bg-gray-600 text-gray-300 cursor-not-allowed"
+      ? "bg-[#ccff00] text-black hover:bg-[#b8e600] cursor-pointer"
       : "bg-[#ccff00] text-black hover:bg-[#b8e600] cursor-pointer"
   }`}
 >
   <FaRegBookmark size={14} />
-  {alreadyAdded ? "Already Saved" : "Save for later"}
+  {alreadyAdded ? "Save for later" : "Save for later"}
 </button>
   );
 };
