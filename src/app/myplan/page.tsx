@@ -236,6 +236,7 @@ const MyPlan = () => {
                   {/* Mark as Done */}
                   {activeTab === "today" && (
                     <button
+                     onClick={() => toast.success("Marked as done!")}
                       className="flex items-center gap-1 rounded-full border border-[#30343b] bg-[#ccff00] px-4 py-2 text-xs text-black transition hover:bg-[#b8e600] cursor-pointer"
                     >
                       <Check size={15} />
