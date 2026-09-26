@@ -3,7 +3,7 @@ import Banner from '@/components/Banner';
 import WorkoutsCard from '@/components/WorkoutsCard';
 import { IWorkouts } from '@/type/LibraryCard';
 
-import React from 'react';
+
 
 export const getWorkoutsPlan = async () => {
   const res = await fetch('https://api.abcz.workers.dev/api/fitlog')
@@ -11,8 +11,10 @@ export const getWorkoutsPlan = async () => {
   return data;
 }
 const HomePage = async () => {
+
   const workouts = await getWorkoutsPlan()
-  console.log(workouts);
+
+  // console.log(workouts);
   return (
     <div className='container mx-auto py-8'>
       <Banner />
@@ -21,9 +23,9 @@ const HomePage = async () => {
           <h2 className='text-2xl font-bold'>THE LIBRARY</h2>
           <p className='text-gray-300'>Twelve lifts covering every major muscle group.</p>
         </div>
-        <div className='grid gird-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3'>
+       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3'>
           {
-            workouts.map((workout: IWorkouts) => <WorkoutsCard key={workout?.id} workout={workout} />)
+            workouts.map((workout: IWorkouts) => <WorkoutsCard key={workout?.id} workout={workout}  />)
           }
         </div>
       </div>

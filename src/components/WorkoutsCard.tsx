@@ -9,7 +9,7 @@ import Link from 'next/link';
 
 interface IWorkoutProps {
     workout: IWorkouts
-    setSelectedWorkouts: React.Dispatch<React.SetStateAction<number>>;
+  
 }
 
 const WorkoutsCard = ({ workout }: IWorkoutProps) => {
