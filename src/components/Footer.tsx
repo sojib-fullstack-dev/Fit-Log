@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 const Footer = () => {
     return (
-        <div className='flex lg:flex sm:text-center justify-between container mx-auto py-10 items-center'>
+       <div className='flex flex-col sm:flex-row justify-between container mx-auto py-10 items-center gap-4 px-5'>
             <Link href={'/'}>
             <div className='flex gap-2'>
                 <Image src={footerImg} alt='footer'></Image>
