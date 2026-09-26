@@ -14,11 +14,11 @@ const MyPlan = () => {
     throw new Error("MyPlan must be inside WorkoutProvider");
   }
 
-  const { selectedWorkouts, savedWorkouts } = context;
+  const { selectedWorkouts, savedWorkouts, removePlan, removeSaved } = context;
 
   const [activeTab, setActiveTab] = useState<"today" | "saved">("today");
 
-  const [sortBy, setSortBy] = useState<"duration" | "calories">("duration");
+  const [sortBy, setSortBy] = useState<"duration" | "calories" | "rating">("duration");
 
   // Which workouts should be displayed
   const currentWorkouts =
@@ -29,8 +29,10 @@ const MyPlan = () => {
     if (sortBy === "duration") {
       return a.duration - b.duration;
     }
-
-    return a.caloriesBurned - b.caloriesBurned;
+    if (sortBy === "calories") {
+      return a.caloriesBurned - b.caloriesBurned;
+    }
+    return b.rating - a.rating;
   });
 
   // Total minutes
@@ -103,8 +105,8 @@ const MyPlan = () => {
           {/* Today's Plan */}
           <button
             onClick={() => setActiveTab("today")}
-            className={`rounded-md px-4 py-2 text-xs transition ${activeTab === "today"
-              ? "bg-[#1b1e23] text-white"
+            className={`rounded-md  px-4 py-2 text-xs transition ${activeTab === "today"
+              ? "bg-[#1b1e23] text-white border border-gray-600"
               : "text-gray-500 hover:text-white"
               }`}
           >
@@ -115,7 +117,7 @@ const MyPlan = () => {
           <button
             onClick={() => setActiveTab("saved")}
             className={`rounded-md px-4 py-2 text-xs transition ${activeTab === "saved"
-              ? "bg-[#1b1e23] text-white"
+              ? "bg-[#1b1e23] text-white border border-gray-600"
               : "text-gray-500 hover:text-white"
               }`}
           >
@@ -134,7 +136,7 @@ const MyPlan = () => {
             value={sortBy}
             onChange={(e) =>
               setSortBy(
-                e.target.value as "duration" | "calories"
+                e.target.value as "duration" | "calories" | "rating"
               )
             }
             className="rounded-lg border border-[#30343b] bg-[#15181e] px-4 py-2 text-sm text-white outline-none"
@@ -146,6 +148,11 @@ const MyPlan = () => {
             <option value="calories">
               Calories
             </option>
+
+            <option value="rating">
+              Rating
+            </option>
+
           </select>
         </div>
 
@@ -157,7 +164,7 @@ const MyPlan = () => {
 
               <div className="text-gray-400">
                 {activeTab === "today"
-                  ? <div className="sdivace-y-4">
+                  ? <div className="space-y-4">
                     <h2 className="text-2xl text-white font-bold ">NOTHING HERE YET</h2>
                     <p>Browse the library and add a lift to get today moving.</p>
                     <Link href="/"> <button className="btn border rounded-5xl bg-[#C2F10E]">Go to workouts</button></Link>
@@ -196,7 +203,7 @@ const MyPlan = () => {
                   </h2>
 
                   <p className="text-xs text-gray-500">
-                    {workout.muscleGroups?.[0]}
+                    {workout.equipment}
                   </p>
 
                   <div className="mt-1 flex flex-wrap gap-3 text-xs text-gray-400">
@@ -237,7 +244,13 @@ const MyPlan = () => {
                   )}
 
                   {/* Delete */}
+                  {/* Delete */}
                   <button
+                    onClick={() =>
+                      activeTab === "today"
+                        ? removePlan(workout.id)
+                        : removeSaved(workout.id)
+                    }
                     className="text-gray-500 transition hover:text-red-500"
                   >
                     <Trash size={20} />

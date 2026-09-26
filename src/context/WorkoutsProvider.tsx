@@ -6,16 +6,18 @@ import { createContext, useState } from "react";
 interface IWorkoutContext {
   selectedWorkouts: IWorkouts[];
   addPlan: (workout: IWorkouts) => void;
+  removePlan: (id: number) => void;
 
   savedWorkouts: IWorkouts[];
   addSaved: (workout: IWorkouts) => void;
+  removeSaved: (id: number) => void;
 }
-
 export const WorkoutContext = createContext<IWorkoutContext | null>(null);
 
 const WorkoutProvider = ({ children }: { children: React.ReactNode }) => {
-  
+          // plan useState 
   const [selectedWorkouts, setSelectedWorkouts] = useState<IWorkouts[]>([]);
+              // save useState 
   const [savedWorkouts, setSavedWorkouts] = useState<IWorkouts[]>([]);
 
   // Add workout to today's plan
@@ -40,9 +42,19 @@ const WorkoutProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
+    // Remove workout from today's plan
+  const removePlan = (id: number) => {
+    setSelectedWorkouts((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  // Remove workout from saved
+  const removeSaved = (id: number) => {
+    setSavedWorkouts((prev) => prev.filter((item) => item.id !== id));
+  };
+
   return (
     <WorkoutContext.Provider
-      value={{ selectedWorkouts, addPlan, savedWorkouts, addSaved }}
+      value={{ selectedWorkouts, addPlan, removePlan, savedWorkouts, addSaved, removeSaved }}
     >
       {children}
     </WorkoutContext.Provider>

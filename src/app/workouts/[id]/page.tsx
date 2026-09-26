@@ -4,7 +4,6 @@ import WorkoutsDatelisCard from '@/components/WorkoutsDetalisCard';
 import { IWorkouts } from '@/type/LibraryCard';
 
 import { notFound } from 'next/navigation';
-import React from 'react';
 
 interface IType {
     params: Promise<{
