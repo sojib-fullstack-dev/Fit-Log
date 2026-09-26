@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Check, Trash } from "lucide-react";
 import Link from "next/link";
 import { WorkoutContext } from "@/context/WorkoutsProvider";
+import { toast } from "react-toastify";
 
 const MyPlan = () => {
   const context = useContext(WorkoutContext);
@@ -235,7 +236,7 @@ const MyPlan = () => {
                   {/* Mark as Done */}
                   {activeTab === "today" && (
                     <button
-                      className="flex items-center gap-1 rounded-full border border-[#30343b] bg-[#ccff00] px-4 py-2 text-xs text-black transition hover:bg-[#b8e600]"
+                      className="flex items-center gap-1 rounded-full border border-[#30343b] bg-[#ccff00] px-4 py-2 text-xs text-black transition hover:bg-[#b8e600] cursor-pointer"
                     >
                       <Check size={15} />
 
@@ -244,14 +245,18 @@ const MyPlan = () => {
                   )}
 
                   {/* Delete */}
-                  {/* Delete */}
                   <button
-                    onClick={() =>
-                      activeTab === "today"
-                        ? removePlan(workout.id)
-                        : removeSaved(workout.id)
-                    }
-                    className="text-gray-500 transition hover:text-red-500"
+                    onClick={() =>{
+                        if(activeTab==="today"){
+                           removePlan(workout.id);
+                            toast.success("Removed from today's plan");
+                        }else{
+                           removeSaved(workout.id);
+                           toast.success("Removed from saved")
+                        }
+                    }}
+                    
+                    className="text-gray-500 transition hover:text-red-500 cursor-pointer"
                   >
                     <Trash size={20} />
                   </button>
